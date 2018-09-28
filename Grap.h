@@ -2,25 +2,27 @@
 #include<vector>
 #include<iostream>
 using namespace std;
-struct node
+struct edge
 {
-	int nodeno;
+	int to;
 	int distance;
-	//node * next;
-	node(int d, int n)
+	
+	edge(int t, int d)
 	{
+		to = t;
 		distance = d;
-		nodeno = n;
 	}
 };
 class Graph
 {
 private:
-	int nonumber, distance;
-	vector<vector<node>> nodes;
+	vector<vector<edge>> edgeList;
+
 public:
-	Graph(int n);
-	void addEdge(vector<vector<node>> nodes, int nonumber, int distance);
-	void displayEdgelist(vector<vector<node>> nodes);
+	Graph(int numnodes);
+	void addEdge(int from,int to,int distance);
+	void displayEdgelist();
+	bool isEdge(int from,int to);
+	void removeEdge();
 	~Graph();
 };
