@@ -2,16 +2,16 @@
 
 
 
-Graph::Graph(int numnodes)
+Graph::Graph(int n)
 {
-	vector<vector<edge>> edgeList(numnodes);
+	edgeList.resize(n);
 }
 
 void Graph::addEdge(int from, int to, int distance)
 {
 
-	edgeList[from].push_back(edge(to, distance));
-	
+	edgeList.at(from).push_back(edge(from,to, distance));
+
 }
 
 
@@ -19,13 +19,16 @@ void Graph::displayEdgelist()
 {
 	for (auto it : edgeList)
 	{
+		
 		for (auto x : it)
 		{
-			cout << "node number" << x.to;
-			cout << "distance" << x.distance;
-			cout << "     ";
+			cout << "from node " << x.from;
+			cout << " to" << x.to;
+			cout << "the distance is " << x.distance;
+			cout << endl;
+
+		
 		}
-		cout << endl;
 	}
 }
 
