@@ -1,14 +1,15 @@
-#pragma once
 #include<vector>
 #include<iostream>
 using namespace std;
 struct edge
 {
+	int from;
 	int to;
 	int distance;
-	
-	edge(int t, int d)
+
+	edge(int f,int t, int d)
 	{
+		from = f;
 		to = t;
 		distance = d;
 	}
@@ -19,10 +20,10 @@ private:
 	vector<vector<edge>> edgeList;
 
 public:
-	Graph(int numnodes);
-	void addEdge(int from,int to,int distance);
+	Graph(int n);
+	void addEdge(int from, int to, int distance);
 	void displayEdgelist();
-	bool isEdge(int from,int to);
+	bool isEdge(int from, int to);
 	void removeEdge();
 	~Graph();
 };
