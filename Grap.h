@@ -21,6 +21,7 @@ private:
 
 public:
 	Graph(int n);
+	Graph(const Graph &g);
 	void addEdge(int from, int to, int distance);
 	void displayEdgelist();
 	bool isEdge(int from, int to);
