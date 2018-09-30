@@ -1,65 +1,29 @@
-#include "Graph.h"
-
-
-
-Graph::Graph(int n)
+#include<vector>
+#include<iostream>
+using namespace std;
+struct edge
 {
-	edgeList.resize(n);
-}
+	int from;
+	int to;
+	int distance;
 
-void Graph::addEdge(int from, int to, int distance)
-{
-
-	edgeList.at(from).push_back(edge(from, to, distance));
-
-}
-
-
-void Graph::displayEdgelist()
-{
-	for (auto it : edgeList)
+	edge(int f,int t, int d)
 	{
-
-		for (auto x : it)
-		{
-			cout << "from node " << x.from;
-			cout << " to" << x.to;
-			cout << "the distance is " << x.distance;
-			cout << endl;
-
-
-		}
-		//cout << "I am skipping an index";
+		from = f;
+		to = t;
+		distance = d;
 	}
-}
-
-bool Graph::isEdge(int from, int to)
+};
+class Graph
 {
-	bool flag = false;
-	
-	for (auto it : edgeList)
-	{
+private:
+	vector<vector<edge>> edgeList;
 
-		for (auto x : it)
-		{
-		
-			
-			if ((from == x.from) && (to == x.to))
-			{
-				
-				flag = true;
-				return flag;
-				
-			}
-
-
-		}
-		
-	}
-	return flag;
-}
-
-
-Graph::~Graph()
-{
-}
+public:
+	Graph(int n);
+	void addEdge(int from, int to, int distance);
+	void displayEdgelist();
+	bool isEdge(int from, int to);
+	void removeEdge(int from,int to);
+	~Graph();
+};
