@@ -15,7 +15,9 @@ int main()
 	g.addEdge(2, 8, 78);
 	g.addEdge(5, 4, 78);
 	g.addEdge(6, 4, 7);
-	g.isEdge(6,4);
+	g.isEdge(6, 4);
+	g.displayEdgelist();
+	g.removeEdge(0, 3);
 	/* g.addEdge();
 	g.addEdge();
 	g.addEdge();*/
