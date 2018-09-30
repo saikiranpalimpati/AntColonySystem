@@ -7,6 +7,13 @@ Graph::Graph(int n)
 	edgeList.resize(n);
 }
 
+Graph::Graph(const Graph & g)
+{
+	vector<vector<edge>> v = g.edgeList;
+}
+
+
+
 void Graph::addEdge(int from, int to, int distance)
 {
 	edgeList.at(from).push_back(edge(from, to, distance));
