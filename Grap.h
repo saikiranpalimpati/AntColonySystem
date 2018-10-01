@@ -7,7 +7,7 @@ struct edge
 	int to;
 	int distance;
 
-	edge(int f,int t, int d)
+	edge(int f, int t, int d)
 	{
 		from = f;
 		to = t;
@@ -25,6 +25,7 @@ public:
 	void addEdge(int from, int to, int distance);
 	void displayEdgelist();
 	bool isEdge(int from, int to);
-	void removeEdge(int from,int to);
+	void removeEdge(int from, int to);
+	int getWeight(int from,int to);
 	~Graph();
 };
