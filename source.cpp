@@ -3,7 +3,10 @@
 using namespace std;
 int main()
 {
+	//initialising the number of vertices to be 10
 	Graph g(10);
+
+	//adding a few edges
 	g.addEdge(0, 1, 15);
 	g.addEdge(0, 2, 10);
 	g.addEdge(0, 3, 5);
@@ -17,19 +20,23 @@ int main()
 	g.addEdge(6, 4, 7);
 	g.addEdge(0, 1, 15);
 	g.addEdge(0, 2, 10);
+	
+	
+	//checking wether the defined edge exists or not
 	g.isEdge(6, 4);
-	
-	cout << "the edge list is" << endl;
-	
+
+	//displaying the edgelist
 	g.displayEdgelist();
 
-	cout << "the edge list after removal of few edges is" << endl;
-	g.removeEdge(7,2 );
-	g.removeEdge(6,4);
-	
-	
+	//removing few edges from edgelist
+	g.removeEdge(7, 2);
+	g.removeEdge(6, 4);
+
+	//displaying the edgelist after removing few edges
 	g.displayEdgelist();
-	cout << g.getWeight(0, 7) << "this is weight "<<endl;
+
+	//get weight of on of the edge
+	cout << g.getWeight(0, 7) << endl;
 
 	system("pause");
 }
