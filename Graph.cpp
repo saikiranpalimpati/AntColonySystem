@@ -16,14 +16,14 @@ Graph::Graph(const Graph & g)
 
 void Graph::addEdge(int from, int to, int distance)
 {
-	
+
 	if (isEdge(from, to))
 	{
-		cout << "edge "<<from<<" to"<<to<<"  already exists" << endl;	
+		cout << "edge " << from << " to" << to << "  already exists" << endl;
 	}
-	else 
+	else
 	{
-	   edgeList.at(from).push_back(edge(from, to, distance));
+		edgeList.at(from).push_back(edge(from, to, distance));
 	}
 
 }
@@ -41,6 +41,15 @@ void Graph::displayEdgelist()
 			cout << endl;
 		}
 
+	}
+
+
+	cout << "using at" << endl;
+	for (auto x : edgeList.at(1))
+	{
+		cout << x.from << endl;
+		cout << x.to << endl;
+		cout << x.distance << endl;
 	}
 }
 
@@ -66,39 +75,38 @@ bool Graph::isEdge(int from, int to)
 void Graph::removeEdge(int from, int to)
 {
 	int i = 0;
-	if (isEdge(from, to))
-	{		
+	int position = -1;
+	
 		for (auto it : edgeList)
 		{
 			for (auto x : it)
 			{
 				if ((from == x.from) && (to == x.to))
 				{
-					int position = i;
-					edgeList[from].erase(edgeList[from].begin() + position);
+					position = i;
+					
 				}
 				i++;
 			}
 			i = 0;
 		}
-	}
-	else
-	{
-		cout << "the edge which is requested to be removed does not exist" << endl;
-		
-	}
+		if (position >= 0)
+		{
+			edgeList[from].erase(edgeList[from].begin() + position);
+		}
+	
 }
 
 int Graph::getWeight(int from, int to)
 {
 	int weight = 0;
-	
+
 	for (auto it : edgeList)
 	{
 		for (auto x : it)
 		{
-		  weight = x.distance;
-		
+			weight = x.distance;
+
 		}
 
 	}
