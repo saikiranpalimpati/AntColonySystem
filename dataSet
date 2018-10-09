@@ -1,11 +1,13 @@
 #include<iostream>
 #include<vector>
+#include<fstream>
 using namespace std;
+#define PI 3.14159265
 struct vertex
 {
-	int x;
-	int y;
-	vertex(int xcor, int ycor)
+	double x;
+	double y;
+	vertex(double xcor, double ycor)
 	{
 		x = xcor;
 		y = ycor;
@@ -13,55 +15,58 @@ struct vertex
 };
 void main()
 {
-	int n = 4;
+	ofstream outfile;
+	outfile.open("outpt.txt");
+	int n = 16;
 	int total_angle = 360;
-	int angle_inside = total_angle / n;
-	
+	double angle_inside = total_angle / n;
+
 	vector<vertex> v;
-	//v.resize(n);
-	
+
+
 	for (int i = 0; i < n; i++)
 	{
 		v.push_back(vertex(i, i));
 	}
-	int angle_temp = 0;
-	for (int i = 0; i < n-1; i++)
+
+	double angle_temp = 0;
+	for (int i = 0; i < n ; i++)
 	{
-		int xcor = 0;
-		int ycor = 0;
-		if (angle_temp <= 90)
+		double xcor = 0;
+		double ycor = 0;
+		if (angle_temp < 90)
 		{
-		
-			xcor = (n/2)*sin(angle_temp);
-			ycor = (n / 2)*cos(angle_temp);
+			xcor = (n / 2)*cos(angle_temp*PI / 180);
+			ycor = (n / 2)*sin(angle_temp*PI / 180);
+			cout << "xcor" << xcor << "ycor" << ycor << endl;
 			v[i] = vertex(xcor, ycor);;
 		}
-		else if(angle_temp > 90 && angle_temp<=180)
+		else if (angle_temp >= 90 && angle_temp < 180)
 		{
-			xcor = -((n / 2)*sin(angle_temp));
-			ycor = (n / 2)*cos(angle_temp);
+			xcor = (n / 2)*cos(angle_temp*PI / 180);
+			ycor = (n / 2)*sin(angle_temp*PI / 180);
 			v[i] = vertex(xcor, ycor);;
 		}
-		else if (angle_temp > 180 && angle_temp <= 270)
+		else if (angle_temp >= 180 && angle_temp < 270)
 		{
-			xcor = -((n / 2)*sin(angle_temp));
-			ycor = -((n / 2)*cos(angle_temp));
+			xcor = (n / 2)*cos(angle_temp*PI / 180);
+			ycor = (n / 2)*sin(angle_temp*PI / 180);
 			v[i] = vertex(xcor, ycor);;
 		}
-		else if (angle_temp > 270 && angle_temp <= 360)
+		else if (angle_temp >= 270 && angle_temp < 360)
 		{
-			xcor = (n / 2)*sin(angle_temp);
-			ycor = -((n / 2)*cos(angle_temp));
-			v[i] = vertex(xcor, ycor);;
+			xcor = (n / 2)*cos(angle_temp*PI / 180);
+			ycor = (n / 2)*sin(angle_temp*PI / 180);
+			v[i] = vertex(xcor, ycor);
 		}
 
 		angle_temp = angle_temp + angle_inside;
 
-		//v[i] = vertex(2, 2);
+		
 	}
 	for (int i = 0; i < n; i++)
 	{
-		cout<<v[i].x<<v[i].y<<endl;
+		outfile << v[i].x << v[i].y << endl;
 	}
 	system("pause");
 }
