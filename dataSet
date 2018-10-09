@@ -1,83 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<fstream>
-using namespace std;
-#define PI 3.14159265
-struct vertex
-{
-	double x;
-	double y;
-	vertex(double xcor, double ycor)
-	{
-		x = xcor;
-		y = ycor;
-	}
-};
-void main()
-{
-	ofstream outfile;
-	outfile.open("outpt.txt");
-	int n = 16;
-	int total_angle = 360;
-	double angle_inside = total_angle / n;
-
-	vector<vertex> v;
-
-
-	for (int i = 0; i < n; i++)
-	{
-		v.push_back(vertex(i, i));
-	}
-
-	double angle_temp = 0;
-	for (int i = 0; i < n ; i++)
-	{
-		double xcor = 0;
-		double ycor = 0;
-		if (angle_temp < 90)
-		{
-			xcor = (n / 2)*cos(angle_temp*PI / 180);
-			ycor = (n / 2)*sin(angle_temp*PI / 180);
-			cout << "xcor" << xcor << "ycor" << ycor << endl;
-			v[i] = vertex(xcor, ycor);;
-		}
-		else if (angle_temp >= 90 && angle_temp < 180)
-		{
-			xcor = (n / 2)*cos(angle_temp*PI / 180);
-			ycor = (n / 2)*sin(angle_temp*PI / 180);
-			v[i] = vertex(xcor, ycor);;
-		}
-		else if (angle_temp >= 180 && angle_temp < 270)
-		{
-			xcor = (n / 2)*cos(angle_temp*PI / 180);
-			ycor = (n / 2)*sin(angle_temp*PI / 180);
-			v[i] = vertex(xcor, ycor);;
-		}
-		else if (angle_temp >= 270 && angle_temp < 360)
-		{
-			xcor = (n / 2)*cos(angle_temp*PI / 180);
-			ycor = (n / 2)*sin(angle_temp*PI / 180);
-			v[i] = vertex(xcor, ycor);
-		}
-
-		angle_temp = angle_temp + angle_inside;
-
-		
-	}
-	for (int i = 0; i < n; i++)
-	{
-		outfile << "("<<v[i].x<<"," << v[i].y<<")" << endl;
-	}
-	system("pause");
-}
-************************************************************************************************************************************
-
-
-
-
-#include<iostream>
-#include<vector>
-#include<fstream>
+#include<cmath>
 
 using namespace std;
 
@@ -95,6 +19,18 @@ struct vertex
 	}
 };
 
+struct edge
+{
+	double from;
+	double to;
+	double distance;
+	edge(double f, double t, double d)
+	{
+		from = f;
+		to = t;
+		distance = d;
+	}
+};
 
 void main()
 {
@@ -140,7 +76,27 @@ void main()
 	//printing the coordinates in an output file
 	for (int i = 0; i < n; i++)
 	{
-		outfile << "(" << v[i].x << "," << v[i].y << ")" << endl;
+		outfile  << v[i].x <<v[i].y  << endl;
 	}
+
+	vector<edge> edgeList;
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = i+1; j < n; j++)
+		{
+			double x1, x2, y1, y2, xdist, ydist, distance;
+			x1 = v[i].x;
+			x2 = v[j].x;
+			y1 = v[i].y;
+			y2 = v[j].y;
+			xdist = pow((x2 - x1),2);
+			ydist = pow((y2 - y1), 2);
+			distance = sqrt(xdist + ydist);
+
+			cout << "x1 " << x1 << " x2 " << x2 << " y1 " << y1 << " y2 " << y2 << " distance " << distance << endl;
+
+		}
+	}
+
 	system("pause");
 }
