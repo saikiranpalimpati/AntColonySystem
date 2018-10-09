@@ -70,3 +70,77 @@ void main()
 	}
 	system("pause");
 }
+************************************************************************************************************************************
+
+
+
+
+#include<iostream>
+#include<vector>
+#include<fstream>
+
+using namespace std;
+
+#define PI 3.14159265
+
+//struct so that each component in the vector will have 2 values in it
+struct vertex
+{
+	double x;
+	double y;
+	vertex(double xcor, double ycor)
+	{
+		x = xcor;
+		y = ycor;
+	}
+};
+
+
+void main()
+{
+	//having an output.txt file to take the data
+	ofstream outfile;
+	outfile.open("outpt.txt");
+
+	//number of vertcies required
+	int n = 16;
+
+	//total angle
+	int total_angle = 360;
+
+	//angle inside each side
+	double angle_inside = total_angle / n;
+
+	//vector to hold the coordinates
+	vector<vertex> v;
+
+	//initialising the vector with its index values
+	for (int i = 0; i < n; i++)
+	{
+		v.push_back(vertex(i, i));
+	}
+
+	//angle for incrementing
+	double angle_temp = 0;
+
+	for (int i = 0; i < n; i++)
+	{
+		double xcor = 0;
+		double ycor = 0;
+	
+		xcor = (n / 2)*cos(angle_temp*PI / 180);
+		ycor = (n / 2)*sin(angle_temp*PI / 180);
+		v[i] = vertex(xcor, ycor);;
+
+		angle_temp = angle_temp + angle_inside;
+
+
+	}
+	
+	//printing the coordinates in an output file
+	for (int i = 0; i < n; i++)
+	{
+		outfile << "(" << v[i].x << "," << v[i].y << ")" << endl;
+	}
+	system("pause");
+}
