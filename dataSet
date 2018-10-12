@@ -47,7 +47,7 @@ void main()
 	//total number of edges
 	int total_edges = ((n*(n + 1)) / 2);
 
-	outfile << total_edges << endl;
+	distfile << total_edges << endl;
 	//total angle
 	int total_angle = 360;
 
