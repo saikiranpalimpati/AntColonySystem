@@ -1,7 +1,7 @@
 #include "Graph.h"
 
 
-Graph::Graph(int n)
+Graph::Graph(double n)
 {
 	edgeList.resize(n);
 	//initalise the vector with size n 
@@ -11,11 +11,11 @@ Graph::Graph(int n)
 Graph::Graph(const Graph & g)
 {
 	vector<vector<edge>> v = g.edgeList;
-	//copy the vector into another
+	//copy the vector doubleo another
 }
 
 
-void Graph::addEdge(int from, int to, int distance)
+void Graph::addEdge(double from, double to, double distance)
 {
 	//while adding check wether the edge already exists
 	if (isEdge(from, to))
@@ -26,6 +26,7 @@ void Graph::addEdge(int from, int to, int distance)
 	//if the edge does not exist then add the edge 
 	else
 	{
+		//double pheromone = 0;
 		edgeList.at(from).push_back(edge(from, to, distance));
 	}
 
@@ -43,6 +44,7 @@ void Graph::displayEdgelist()
 			cout << "from node " << x.from;
 			cout << " to" << x.to;
 			cout << "the distance is " << x.distance;
+			cout << "pheromone is" << x.pheromone;
 			cout << endl;
 		}
 	}
@@ -50,7 +52,7 @@ void Graph::displayEdgelist()
 
 
 
-bool Graph::isEdge(int from, int to)
+bool Graph::isEdge(double from, double to)
 {
 	bool flag = 0;
 
@@ -69,14 +71,14 @@ bool Graph::isEdge(int from, int to)
 
 
 
-void Graph::removeEdge(int from, int to)
+void Graph::removeEdge(double from, double to)
 {
-	int i = 0;
+	double i = 0;
 	//variable used for incrementation during iteration
-	
-	int position = -1;
+
+	double position = -1;
 	//variable to catch the position of the edge in the list
-	
+
 	for (auto x : edgeList.at(from))
 	{
 		//traverse and check for the edge in the edgelist
@@ -104,11 +106,11 @@ void Graph::removeEdge(int from, int to)
 
 }
 
-int Graph::getWeight(int from, int to)
+double Graph::getWeight(double from, double to)
 {
-	int weight = 0;
+	double weight = 0;
 	//having a varible to return edge weight
-	
+
 	for (auto x : edgeList.at(from))
 	{
 		if (x.to == to)
@@ -121,6 +123,11 @@ int Graph::getWeight(int from, int to)
 	return weight;
 }
 
+
+void Graph::changePheromone(double from, double to, double pheromone)
+{
+	edgeList[from].to;
+}
 
 Graph::~Graph()
 {
