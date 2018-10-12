@@ -38,6 +38,9 @@ void main()
 	ofstream outfile;
 	outfile.open("outpt.txt");
 
+	ofstream distfile;
+	distfile.open("distanceList.txt");
+
 	//number of vertcies required
 	int n = 16;
 
@@ -63,7 +66,7 @@ void main()
 	{
 		double xcor = 0;
 		double ycor = 0;
-	
+
 		xcor = (n / 2)*cos(angle_temp*PI / 180);
 		ycor = (n / 2)*sin(angle_temp*PI / 180);
 		v[i] = vertex(xcor, ycor);;
@@ -72,31 +75,35 @@ void main()
 
 
 	}
-	
+
 	//printing the coordinates in an output file
 	for (int i = 0; i < n; i++)
 	{
-		outfile  << v[i].x <<v[i].y  << endl;
+		outfile << v[i].x << v[i].y << endl;
 	}
 
 	vector<edge> edgeList;
 	for (int i = 0; i < n; i++)
 	{
-		for (int j = i+1; j < n; j++)
+		for (int j = i + 1; j < n; j++)
 		{
 			double x1, x2, y1, y2, xdist, ydist, distance;
 			x1 = v[i].x;
 			x2 = v[j].x;
 			y1 = v[i].y;
 			y2 = v[j].y;
-			xdist = pow((x2 - x1),2);
+			xdist = pow((x2 - x1), 2);
 			ydist = pow((y2 - y1), 2);
 			distance = sqrt(xdist + ydist);
 
-			cout << "x1 " << x1 << " x2 " << x2 << " y1 " << y1 << " y2 " << y2 << " distance " << distance << endl;
-
+			outfile << "x1 " << x1 << " x2 " << x2 << " y1 " << y1 << " y2 " << y2 << " distance " << distance << endl;
+			edgeList.push_back(edge(i,j,distance));
 		}
 	}
 
+	for (auto it: edgeList)
+	{
+		distfile << it.from << " " << it.to << " " << it.distance <<  endl;
+	}
 	system("pause");
 }
