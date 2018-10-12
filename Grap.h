@@ -5,28 +5,29 @@
 using namespace std;
 
 /* This structure defines an edge and it contains from vertex, to vertex and distance between those
-   two vertices
-   A constructor is also defined to initialise each edge
+two vertices
+A constructor is also defined to initialise each edge
 */
 struct edge
 {
-	int from;
-	int to;
-	int distance;
+	double from;
+	double to;
+	double distance;
+	double pheromone;
 
-	edge(int f, int t, int d)
+	edge(double f, double t, double d)
 	{
 		from = f;
 		to = t;
 		distance = d;
+		pheromone = 0;
 	}
 };
 
-/* The graph class contains a two dimensional vector which contains the edgelist the outermost vectors 
-   indices are taken as the from vector reference and inside each of this vector element there exists 
-   a vector which is of type edge. There are a few methods which help in intialising and accesing the 
-   data from and to edgelist.
-
+/* The graph class contains a two dimensional vector which contains the edgelist the outermost vectors
+indices are taken as the from vector reference and inside each of this vector element there exists
+a vector which is of type edge. There are a few methods which help in doubleialising and accesing the
+data from and to edgelist.
 */
 class Graph
 {
@@ -36,27 +37,28 @@ private:
 	//vector initialisation
 
 public:
-	Graph(int n);
-	//default constructor to intialise the size of the edgelist vector
+	Graph(double n);
+	//default constructor to doubleialise the size of the edgelist vector
 
 	Graph(const Graph &g);
 	//copy constructor to copy the vector 
-	
-	void addEdge(int from, int to, int distance);
-	//addEdge method to in initialise an edge into edgeList vector 
-	
+
+	void addEdge(double from, double to, double distance);
+	//addEdge method to in initialise an edge doubleo edgeList vector 
+
 	void displayEdgelist();
 	//display all the edges in the edgeList vector
-	
-	bool isEdge(int from, int to);
+
+	bool isEdge(double from, double to);
 	//checks wether the edge exists or not
 
-	void removeEdge(int from, int to);
+	void removeEdge(double from, double to);
 	//removes an edge
 
-	int getWeight(int from, int to);
+	double getWeight(double from, double to);
 	//gives the distance between the given from and to vertices
-	
+
+	void changePheromone(double from, double to, double pheromone);
 	~Graph();
 	//destructor
 };
