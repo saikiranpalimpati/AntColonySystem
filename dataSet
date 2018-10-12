@@ -42,8 +42,12 @@ void main()
 	distfile.open("distanceList.txt");
 
 	//number of vertcies required
-	int n = 16;
+	int n = 4;
 
+	//total number of edges
+	int total_edges = ((n*(n + 1)) / 2);
+
+	outfile << total_edges << endl;
 	//total angle
 	int total_angle = 360;
 
@@ -79,7 +83,7 @@ void main()
 	//printing the coordinates in an output file
 	for (int i = 0; i < n; i++)
 	{
-		outfile << v[i].x << v[i].y << endl;
+		outfile << v[i].x<<"  " << v[i].y << endl;
 	}
 
 	vector<edge> edgeList;
@@ -97,13 +101,13 @@ void main()
 			distance = sqrt(xdist + ydist);
 
 			outfile << "x1 " << x1 << " x2 " << x2 << " y1 " << y1 << " y2 " << y2 << " distance " << distance << endl;
-			edgeList.push_back(edge(i,j,distance));
+			edgeList.push_back(edge(i, j, distance));
 		}
 	}
 
-	for (auto it: edgeList)
+	for (auto it : edgeList)
 	{
-		distfile << it.from << " " << it.to << " " << it.distance <<  endl;
+		distfile << it.from << " " << it.to << " " << it.distance << endl;
 	}
 	system("pause");
 }
