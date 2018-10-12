@@ -44,10 +44,6 @@ void main()
 	//number of vertcies required
 	int n = 4;
 
-	//total number of edges
-	int total_edges = ((n*(n - 1)) / 2);
-
-	distfile << total_edges << endl;
 	//total angle
 	int total_angle = 360;
 
