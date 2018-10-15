@@ -113,8 +113,10 @@ double Graph::getWeight(double from, double to)
 
 	for (auto x : edgeList.at(from))
 	{
+		
 		if (x.to == to)
 		{
+			
 			weight = x.distance;
 		}
 
@@ -126,8 +128,24 @@ double Graph::getWeight(double from, double to)
 
 void Graph::changePheromone(double from, double to, double pheromone)
 {
-	edgeList[from].to;
+	int position = 0;
+	int i = 0;
+	int weight = 0;
+	for (auto x : edgeList.at(from))
+	{
+		
+		if (x.to = to)
+		{
+			position = i;
+			weight = x.distance;
+		}
+		i++;
+	}
+	i = 0;
+	edgeList[from][position-1].pheromone = pheromone;
 }
+
+
 
 Graph::~Graph()
 {
