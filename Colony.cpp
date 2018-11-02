@@ -31,7 +31,7 @@ void Colony::displayGraph(Graph &g)
 	}
 }
 
-double Colony::greedyPath(Graph &g)
+double Colony::greedyPath(Graph &g,double initial)
 {
 	//temporary vector to store a graph
 	vector<vector<edge>> temp = g.returnGraph();
@@ -44,7 +44,7 @@ double Colony::greedyPath(Graph &g)
 	set<double> toBeVisited;
 	
 	//initialising the start node as 0
-	double start = 0;
+	double start = initial;
 	
 	//storing the rest of nodes into the set
 	for (auto it : temp.at(start))
