@@ -35,8 +35,9 @@ class Graph
 private:
 	vector<vector<edge>> edgeList;
 	//vector initialisation
-
 public:
+	//Graph();
+
 	Graph(double n);
 	//default constructor to doubleialise the size of the edgelist vector
 
@@ -59,6 +60,12 @@ public:
 	//gives the distance between the given from and to vertices
 
 	void changePheromone(double from, double to, double pheromone);
+	//update the pheromone level at particular edge
+
+	vector<vector<edge>> returnGraph();
+
+	double  greedyTour();
+	
 	~Graph();
 	//destructor
 };
