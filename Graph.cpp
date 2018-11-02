@@ -1,5 +1,10 @@
 #include "Graph.h"
 
+vector<vector<edge>> Graph::returnGraph()
+{
+
+	return edgeList;
+}
 
 Graph::Graph(double n)
 {
@@ -18,9 +23,9 @@ Graph::Graph(const Graph & g)
 void Graph::addEdge(double from, double to, double distance)
 {
 	//while adding check wether the edge already exists
-	if (isEdge(from, to))
+	if (isEdge(from, to)||isEdge(to,from))
 	{
-		cout << "edge " << from << " to" << to << "  already exists" << endl;
+		cout << "  already exists" << endl;
 	}
 
 	//if the edge does not exist then add the edge 
@@ -28,6 +33,8 @@ void Graph::addEdge(double from, double to, double distance)
 	{
 		//double pheromone = 0;
 		edgeList.at(from).push_back(edge(from, to, distance));
+		edgeList.at(to).push_back(edge(to, from, distance));
+
 	}
 
 }
@@ -74,9 +81,11 @@ bool Graph::isEdge(double from, double to)
 void Graph::removeEdge(double from, double to)
 {
 	double i = 0;
+	double j = 0;
 	//variable used for incrementation during iteration
 
-	double position = -1;
+	double positioni = -1;
+	double positionj = -1;
 	//variable to catch the position of the edge in the list
 
 	for (auto x : edgeList.at(from))
@@ -84,7 +93,7 @@ void Graph::removeEdge(double from, double to)
 		//traverse and check for the edge in the edgelist
 		if ((from == x.from) && (to == x.to))
 		{
-			position = i;
+			positioni = i;
 
 		}
 		i++;
@@ -92,9 +101,33 @@ void Graph::removeEdge(double from, double to)
 	i = 0;
 
 	//if the position value changed then at that partuicular position erase the edge
-	if (position >= 0)
+	if (positioni >= 0)
 	{
-		edgeList[from].erase(edgeList[from].begin() + position);
+		edgeList[from].erase(edgeList[from].begin() + positioni);
+
+	}
+
+	//if the position is not changed then it means it does not exist
+	else
+	{
+		cout << "edge doesnot exist so it cannot be removed" << endl;
+	}
+	for (auto x : edgeList.at(to))
+	{
+		//traverse and check for the edge in the edgelist
+		if ((from == x.to) && (to == x.from))
+		{
+			positionj = j;
+
+		}
+		j++;
+	}
+	j = 0;
+
+	//if the position value changed then at that partuicular position erase the edge
+	if (positionj >= 0)
+	{
+		edgeList[to].erase(edgeList[to].begin() + positionj);
 
 	}
 
@@ -113,10 +146,10 @@ double Graph::getWeight(double from, double to)
 
 	for (auto x : edgeList.at(from))
 	{
-		
+
 		if (x.to == to)
 		{
-			
+
 			weight = x.distance;
 		}
 
@@ -129,23 +162,44 @@ double Graph::getWeight(double from, double to)
 void Graph::changePheromone(double from, double to, double pheromone)
 {
 	int position = 0;
+	int positionj = 0;
 	int i = 0;
-	int weight = 0;
+	int j = 0;
 	for (auto x : edgeList.at(from))
 	{
-		
-		if (x.to = to)
+		//traverse and check for the edge in the edgelist
+		if ((from == x.from) && (to == x.to))
 		{
 			position = i;
-			weight = x.distance;
 		}
 		i++;
 	}
 	i = 0;
-	edgeList[from][position-1].pheromone = pheromone;
+	edgeList[from][position].pheromone = pheromone;
+
+	for (auto x : edgeList.at(to))
+	{
+		//traverse and check for the edge in the edgelist
+		if ((to == x.from) && (from == x.to))
+		{
+			positionj = j;
+		}
+		j++;
+	}
+	j = 0;
+	edgeList[to][positionj].pheromone = pheromone;
+
 }
 
 
+
+
+
+double Graph::greedyTour()
+{
+	//int start=
+	return 0.0;
+}
 
 Graph::~Graph()
 {
