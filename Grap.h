@@ -4,8 +4,8 @@
 #include<iostream>
 using namespace std;
 
-/* This structure defines an edge and it contains from vertex, to vertex and distance between those
-two vertices
+/* This structure defines an edge and it contains from vertex, 
+to vertex and distance between those two vertices
 A constructor is also defined to initialise each edge
 */
 struct edge
@@ -24,10 +24,12 @@ struct edge
 	}
 };
 
-/* The graph class contains a two dimensional vector which contains the edgelist the outermost vectors
-indices are taken as the from vector reference and inside each of this vector element there exists
-a vector which is of type edge. There are a few methods which help in doubleialising and accesing the
-data from and to edgelist.
+/* The graph class contains a two dimensional vector which 
+contains the edgelist the outermost vectors indices are 
+taken as the from vector reference and inside each of this
+vector element there existsa vector which is of type edge.
+There are a few methods which help in doubleialising and 
+accesing the data from and to edgelist.
 */
 class Graph
 {
@@ -39,13 +41,13 @@ public:
 	//Graph();
 
 	Graph(double n);
-	//default constructor to doubleialise the size of the edgelist vector
+//default constructor to initialise the size of the edgelist 
 
 	Graph(const Graph &g);
 	//copy constructor to copy the vector 
 
 	void addEdge(double from, double to, double distance);
-	//addEdge method to in initialise an edge doubleo edgeList vector 
+//addEdge method to in initialise an edge doubleo edgeList vector 
 
 	void displayEdgelist();
 	//display all the edges in the edgeList vector
@@ -63,9 +65,10 @@ public:
 	//update the pheromone level at particular edge
 
 	vector<vector<edge>> returnGraph();
+	//method to return the graph
 
-	double  greedyTour();
-	
+	int  returnNumberOfVertices();
+	//method to return the number of vertices
 	~Graph();
 	//destructor
 };
