@@ -6,17 +6,11 @@ Colony::Colony()
 {
 
 }
-/*
-void Colony::readGraph(Graph * g)
-{
-	&graph = g->returnGraph();
-	
-}
-*/
 
 void Colony::displayGraph(Graph &g)
 {
 	Gph = &g;
+	//iterating the vector to display the graph
 	for (auto it : Gph->returnGraph())
 	{
 
@@ -64,7 +58,7 @@ double Colony::greedyPath(Graph &g,double initial)
 	  
 		double min = 1000;
 	 
-		cout << "from" << from;
+		//cout << "from" << from;
 	  for (auto it : temp.at(from))
 	  {
 		 //condition to check wether the node which we are trying to reach is already visited or not\
@@ -81,8 +75,8 @@ double Colony::greedyPath(Graph &g,double initial)
 	  //erase the node from the set tobevisted
 	  toBeVisited.erase(to);
 	  
-	  cout << "to" << to;
-	  cout << "min is" << min << endl;
+	  //cout << "to" << to;
+	  //cout << "min is" << min << endl;
 	  forwarddistance += min;
 	
 	}	
@@ -99,12 +93,13 @@ double Colony::greedyPath(Graph &g,double initial)
 		returnFVisited.insert(it.to);
 	}
 
+	//cout << "end of forward tour" << endl;
 	//run the loop till it reaches the start point
 	while (backwardTo != start)
 	{
 		//finding the node with minimum distance
 		double backmin = 1000;
-		cout << "from" << backwardfrom;
+		//cout << "from" << backwardfrom;
 		
 		for (auto it : temp.at(backwardfrom))
 		{
@@ -119,17 +114,36 @@ double Colony::greedyPath(Graph &g,double initial)
 		}
 		returnFVisited.erase(backwardTo);
 
-		cout << "to" << backwardTo;
-		cout << "min is" << backmin << endl;
+		//cout << "to" << backwardTo;
+		//cout << "min is" << backmin << endl;
 		backwardDistance += backmin;
 
 	}
 	totalPathlength = forwarddistance + backwardDistance;
-	cout << "total path length is" << totalPathlength << endl;
+	//cout << "total path length is" << totalPathlength << endl;
 	return totalPathlength;
 }
 
+//method to initialise the pheromone
+void Colony::initialisePheromone(Graph &g)
+{
+	Gph = &g;
+	//intialising the number of ants
+	int antcount = 2;
+	//traversing through the graph to initialise the pheromone
+	for (auto it : Gph->returnGraph())
+	{
+		
+		for (auto x : it)
+		{
+			double tour = greedyPath(g, x.from);
+			double init_pheromone = (antcount/tour);
+			Gph->changePheromone(x.from, x.to, init_pheromone);
 
+		}
+	}
+
+}
 Colony::~Colony()
 {
 }
