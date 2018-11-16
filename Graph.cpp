@@ -1,11 +1,5 @@
 #include "Graph.h"
 
-vector<vector<edge>> Graph::returnGraph()
-{
-
-	return edgeList;
-}
-
 Graph::Graph(double n)
 {
 	edgeList.resize(n);
@@ -23,7 +17,7 @@ Graph::Graph(const Graph & g)
 void Graph::addEdge(double from, double to, double distance)
 {
 	//while adding check wether the edge already exists
-	if (isEdge(from, to)||isEdge(to,from))
+	if (isEdge(from, to) || isEdge(to, from))
 	{
 		cout << "  already exists" << endl;
 	}
@@ -42,7 +36,8 @@ void Graph::addEdge(double from, double to, double distance)
 
 void Graph::displayEdgelist()
 {
-	//traverse trough all the elements in the vector and display them 
+	//traverse trough all the elements in the vector and
+	//display them 
 	for (auto it : edgeList)
 	{
 
@@ -63,7 +58,8 @@ bool Graph::isEdge(double from, double to)
 {
 	bool flag = 0;
 
-	//traverse trough the particfular form vector and check wether the edge exists
+	//traverse trough the particfular form vector and check 
+	//wether the edge exists
 	for (auto x : edgeList.at(from))
 	{
 		if ((from == x.from) && (to == x.to))
@@ -100,14 +96,16 @@ void Graph::removeEdge(double from, double to)
 	}
 	i = 0;
 
-	//if the position value changed then at that partuicular position erase the edge
+	//if the position value changed then at that partuicular
+	//position erase the edge
 	if (positioni >= 0)
 	{
 		edgeList[from].erase(edgeList[from].begin() + positioni);
 
 	}
 
-	//if the position is not changed then it means it does not exist
+	//if the position is not changed then it means it does
+	//not exist
 	else
 	{
 		cout << "edge doesnot exist so it cannot be removed" << endl;
@@ -124,14 +122,16 @@ void Graph::removeEdge(double from, double to)
 	}
 	j = 0;
 
-	//if the position value changed then at that partuicular position erase the edge
+	//if the position value changed then at that partuicular
+	//position erase the edge
 	if (positionj >= 0)
 	{
 		edgeList[to].erase(edgeList[to].begin() + positionj);
 
 	}
 
-	//if the position is not changed then it means it does not exist
+	//if the position is not changed then it means it does
+	//not exist
 	else
 	{
 		cout << "edge doesnot exist so it cannot be removed" << endl;
@@ -143,18 +143,13 @@ double Graph::getWeight(double from, double to)
 {
 	double weight = 0;
 	//having a varible to return edge weight
-
 	for (auto x : edgeList.at(from))
 	{
-
 		if (x.to == to)
 		{
-
 			weight = x.distance;
 		}
-
 	}
-
 	return weight;
 }
 
@@ -191,14 +186,21 @@ void Graph::changePheromone(double from, double to, double pheromone)
 
 }
 
-
-
-
-
-double Graph::greedyTour()
+vector<vector<edge>> Graph::returnGraph()
 {
-	//int start=
-	return 0.0;
+
+	return edgeList;
+}
+
+
+int Graph::returnNumberOfVertices()
+{
+	int i = 1;
+	for (auto it : edgeList.at(0))
+	{
+		i++;
+	}
+	return i;
 }
 
 Graph::~Graph()
