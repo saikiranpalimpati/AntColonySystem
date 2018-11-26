@@ -19,8 +19,10 @@ int main()
 	c.initialisePheromone(*g);
 	Ant a;
 	a.initialiseAnts(*g);
+	//g->displayEdgelist();
 	a.antTour(*g);
-	a.display();
-	
+	//g->displayEdgelist();
+	cout << "next one" << endl;
+	a.displayPath();
 	system("pause");
 }
