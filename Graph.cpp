@@ -6,11 +6,10 @@ Graph::Graph(double n)
 	//initalise the vector with size n 
 }
 
-
+//copy constructor
 Graph::Graph(const Graph & g)
 {
 	vector<vector<edge>> v = g.edgeList;
-	//copy the vector doubleo another
 }
 
 
@@ -116,7 +115,6 @@ void Graph::removeEdge(double from, double to)
 		if ((from == x.to) && (to == x.from))
 		{
 			positionj = j;
-
 		}
 		j++;
 	}
@@ -154,6 +152,21 @@ double Graph::getWeight(double from, double to)
 }
 
 
+double Graph::getPheomone(double from, double to)
+{
+
+	double prmne = 0;
+	//having a varible to return edge pheromone
+	for (auto x : edgeList.at(from))
+	{
+		if (x.to == to)
+		{
+			prmne = x.pheromone;
+		}
+	}
+	return prmne;
+}
+
 void Graph::changePheromone(double from, double to, double pheromone)
 {
 	int position = 0;
@@ -186,13 +199,14 @@ void Graph::changePheromone(double from, double to, double pheromone)
 
 }
 
+//method to return the edgelist
 vector<vector<edge>> Graph::returnGraph()
 {
 
 	return edgeList;
 }
 
-
+//method to return the number of vertices in the graph
 int Graph::returnNumberOfVertices()
 {
 	int i = 1;
@@ -203,6 +217,7 @@ int Graph::returnNumberOfVertices()
 	return i;
 }
 
+//destructor
 Graph::~Graph()
 {
 }
