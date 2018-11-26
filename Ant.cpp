@@ -29,13 +29,16 @@ void Ant::initialiseAnts(Graph &g)
 		ant[i].previousPosition = randPosition;
 		//initialise the ants pheromone to be 1
 		ant[i].pheromone = 1.0;
-		//resize the ants node memory as 100
-		ant[i].nodeMemory.reserve(100);
 	}
 
 }
 
-//method to return the ant number
+void Ant::updateAnt(double index, double value)
+{
+	ant[index].nodeMemory.push_back(value);
+}
+
+//method to return the number of ants
 int  Ant::returnNumberOfAnts()
 {
 	return ant.size();
@@ -68,6 +71,7 @@ void Ant::antTour(Graph&g)
 	}
 
 	//iterate to all the ants
+	double index = 0;
 	for (auto it : ant)
 	{
 		//let source be the initial position of an ant
@@ -83,21 +87,27 @@ void Ant::antTour(Graph&g)
 		double previousPos = source;
 		int cntr = 0;
 		cout << "source" << source << endl;
+		updateAnt(index, source);
 		while (source != end || cntr == 0)
 		{
 
 			double mosProVertex = getProbability(g, source, previousPos);
+			updatePheromone(g,source, mosProVertex);
 			previousPos = source;
 			source = mosProVertex;
 
 			cntr++;
 			cout << " nxt position  " << mosProVertex;
-			it.nodeMemory.push_back(mosProVertex);
+			updateAnt(index,mosProVertex);
+			
 		}
+		index++;
 		cout << endl;
 	}
+	evouparatePheromone(g);
 }
 
+//method to find the next vertex trough random probability rule
 double Ant::getProbability(Graph&g, double from, double back)
 {
 	gp = &g;
@@ -138,23 +148,55 @@ double Ant::getProbability(Graph&g, double from, double back)
 			position = counter;
 		}
 	}
+	
 	return position;
 }
 
+//method to evouporate the pheromone on edges
+void Ant::evouparatePheromone(Graph &g)
+{
+	
+	gp = &g;
+	vector<vector<edge>> temp = gp->returnGraph();
+	double newPheromone;
+	//traverse trought all the edges
+	for (auto it : temp)
+	{
+		for (auto x : it)
+		{
+			//newPheromone would be less than 40% the older one
+			newPheromone = (x.pheromone*(.6));
+			//changing the pheromone at that particular edge
+			gp->changePheromone(x.from,x.to,newPheromone);
+		}
+	}
+}
 
-void Ant::display()
+//method to update the pheromone trough the edges
+void Ant::updatePheromone(Graph &g,double from,double to)
+{
+	gp = &g;
+	double newPheromone=gp->getPheomone(from,to);
+	double updatePheromone = newPheromone + (newPheromone*(.7));
+	gp->changePheromone(from, to, updatePheromone);
+	
+}
+
+//method to display the ant path
+void Ant::displayPath()
 {
 	for (auto it : ant)
 	{
 		for (auto it2 : it.nodeMemory)
 		{
-			cout << "here" << endl;
+		
 			cout << it2 << endl;
 		}
 		cout << endl << endl;
 	}
 }
 
+//destructor
 Ant::~Ant()
 {
 }
