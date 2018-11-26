@@ -28,7 +28,7 @@ struct edge
 contains the edgelist the outermost vectors indices are 
 taken as the from vector reference and inside each of this
 vector element there existsa vector which is of type edge.
-There are a few methods which help in doubleialising and 
+There are a few methods which help in initialising and 
 accesing the data from and to edgelist.
 */
 class Graph
@@ -61,6 +61,9 @@ public:
 	double getWeight(double from, double to);
 	//gives the distance between the given from and to vertices
 
+	double getPheomone(double from, double to);
+	//gives the pheromone on particular edge
+
 	void changePheromone(double from, double to, double pheromone);
 	//update the pheromone level at particular edge
 
@@ -69,6 +72,7 @@ public:
 
 	int  returnNumberOfVertices();
 	//method to return the number of vertices
+	
 	~Graph();
 	//destructor
 };
