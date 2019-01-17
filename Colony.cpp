@@ -1,149 +1,82 @@
-#include "Colony.h"
-#include<set>
-
-
-Colony::Colony()
-{
-
-}
-
-void Colony::displayGraph(Graph &g)
+#pragma once
+#include"colony.h"
+using namespace std;
+Colony::Colony(Graph &g)
 {
 	Gph = &g;
-	//iterating the vector to display the graph
-	for (auto it : Gph->returnGraph())
-	{
+}
 
-		for (auto x : it)
+void Colony::initialiseAnts(Graph &g)
+{
+	Ants.push_back(Ant(g, 11, 1, 0, 0));
+}
+
+void Colony::displayAnts()
+{
+	for (auto it : Ants)
+	{
+		cout << "Index of Ant" << it.displayIndexNumber() << endl;
+		cout << "Current position Of Ant" << it.getTheCurrentPosition() << endl;
+		cout << "pheromone level of Ant" << it.displayPheromone() << endl;
+		cout << endl;
+		for (auto it1 : it.returnPath())
 		{
-			cout << "from node " << x.from;
-			cout << " to" << x.to;
-			cout << "the distance is " << x.distance;
-			cout << "pheromone is" << x.pheromone;
-			cout << endl;
+			cout << it1 << endl;
 		}
 	}
 }
 
-double Colony::greedyPath(Graph &g,double initial)
+void Colony::AnttourUsingGreddyALgorithm()
 {
-	//temporary vector to store a graph
-	vector<vector<edge>> temp = g.returnGraph();
-
-	//varibale which store the total path length
-	double totalPathlength = 0;
-
-	//forward path
-	//set to store the nodes which are still to be visited
-	set<double> toBeVisited;
-	
-	//initialising the start node as 0
-	double start = initial;
-	
-	//storing the rest of nodes into the set
-	for (auto it : temp.at(start))
+	int go = 0;
+	vector<bool> visited;
+	int graphSize = Gph->returnNumberOfVertices();
+	for (int i = 0; i <= graphSize; i++)
 	{
-		toBeVisited.insert(it.to);
+		visited.push_back(false);
 	}
-
-	//varaible to store the path length during forward traversal
-	double forwarddistance = 0;
-	//from and to carries the from node and to node
-	double from = start;
-	double to = -1;
-	
-	//run the loop till you reach all the edges
-	while(!toBeVisited.empty())
-	{ //from the starting node find the minimum length to the next node 
-	  
-		double min = 1000;
-	 
-		//cout << "from" << from;
-	  for (auto it : temp.at(from))
-	  {
-		 //condition to check wether the node which we are trying to reach is already visited or not\
-
-
-		  const bool is_in = toBeVisited.find(it.to) != toBeVisited.end();
-		  if ((it.distance < min)&&(is_in==1))
-		  {
-			  min = it.distance;
-			  to = it.to;
-			  from = to;
-		  }
-	  }
-	  //erase the node from the set tobevisted
-	  toBeVisited.erase(to);
-	  
-	  //cout << "to" << to;
-	  //cout << "min is" << min << endl;
-	  forwarddistance += min;
-	
-	}	
-	//forward path is done
-	
-	//set of variables for storing during the backword tour
-	double backwardfrom = to;
-	double backwardDistance = 0;
-	double backwardTo = -1;
-	//initialising a set and having all the other nodes in it
-	set<double> returnFVisited;
-	for (auto it : temp.at(backwardfrom))
+	cout << "the visited vector before is" << endl;
+	for (auto it : visited)
 	{
-		returnFVisited.insert(it.to);
+		cout << it << endl;
 	}
-
-	//cout << "end of forward tour" << endl;
-	//run the loop till it reaches the start point
-	while (backwardTo != start)
+	int stop = 0;
+	for (auto it : Ants)
 	{
-		//finding the node with minimum distance
-		double backmin = 1000;
-		//cout << "from" << backwardfrom;
-		
-		for (auto it : temp.at(backwardfrom))
+		int currentPosition = it.getTheCurrentPosition();
+		cout << "intial postion" << currentPosition << endl;
+		visited[currentPosition] = true;
+		int previousPosition = currentPosition;
+		int nextPosition = 0;
+		while (stop == 0 && nextPosition >= 0)
 		{
-			//check wether the node is already covered
-			const bool is_in = returnFVisited.find(it.to) != returnFVisited.end();
-			if ((it.distance < backmin) && (is_in == 1))
+			stop = 1;
+			cout << "current position" << currentPosition << endl;
+			cout << "previousPosition" << previousPosition << endl;
+		    nextPosition = it.nextPostionByNearestNeighbour(currentPosition, previousPosition);
+			cout << "nextposition " << nextPosition << endl;
+			previousPosition = currentPosition;
+			currentPosition = nextPosition;
+			it.updatePosition(currentPosition);
+			visited[currentPosition] = true;
+			for (auto itr : visited)
 			{
-				backmin = it.distance;
-				backwardTo = it.to;
-				backwardfrom = backwardTo;
+				if (itr == 0)
+				{
+					stop = 0;
+				}
 			}
 		}
-		returnFVisited.erase(backwardTo);
-
-		//cout << "to" << backwardTo;
-		//cout << "min is" << backmin << endl;
-		backwardDistance += backmin;
-
 	}
-	totalPathlength = forwarddistance + backwardDistance;
-	//cout << "total path length is" << totalPathlength << endl;
-	return totalPathlength;
-}
-
-//method to initialise the pheromone
-void Colony::initialisePheromone(Graph &g)
-{
-	Gph = &g;
-	//intialising the number of ants
-	int antcount = 2;
-	//traversing through the graph to initialise the pheromone
-	for (auto it : Gph->returnGraph())
+	cout << "the visited vector after is" << endl;
+	for (auto it : visited)
 	{
-		
-		for (auto x : it)
-		{
-			double tour = greedyPath(g, x.from);
-			double init_pheromone = (antcount/tour);
-			Gph->changePheromone(x.from, x.to, init_pheromone);
-
-		}
+		cout << it << endl;
 	}
 
+
 }
+
 Colony::~Colony()
 {
 }
