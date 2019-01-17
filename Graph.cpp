@@ -1,6 +1,6 @@
 #include "Graph.h"
 
-Graph::Graph(double n)
+Graph::Graph(int n)
 {
 	edgeList.resize(n);
 	//initalise the vector with size n 
@@ -13,23 +13,25 @@ Graph::Graph(const Graph & g)
 }
 
 
-void Graph::addEdge(double from, double to, double distance)
+void Graph::addEdge(int from, int to, double distance)
 {
 	//while adding check wether the edge already exists
 	if (isEdge(from, to) || isEdge(to, from))
 	{
 		cout << "  already exists" << endl;
 	}
-
 	//if the edge does not exist then add the edge 
 	else
 	{
-		//double pheromone = 0;
-		edgeList.at(from).push_back(edge(from, to, distance));
-		edgeList.at(to).push_back(edge(to, from, distance));
-
+		if (from < to)
+		{
+			edgeList.at(from).push_back(edge(from, to, distance));
+		}
+		else if (to < from)
+		{
+			edgeList.at(to).push_back(edge(to, from, distance));
+		}
 	}
-
 }
 
 
@@ -43,9 +45,9 @@ void Graph::displayEdgelist()
 		for (auto x : it)
 		{
 			cout << "from node " << x.from;
-			cout << " to" << x.to;
-			cout << "the distance is " << x.distance;
-			cout << "pheromone is" << x.pheromone;
+			cout << " to " << x.to;
+			cout << " the distance is " << x.distance;
+			cout << " and the pheromone on that edge is" << x.pheromone;
 			cout << endl;
 		}
 	}
@@ -53,10 +55,17 @@ void Graph::displayEdgelist()
 
 
 
-bool Graph::isEdge(double from, double to)
+bool Graph::isEdge(int from, int to)
 {
 	bool flag = 0;
-
+	//swap if from gretaer than to
+	if (from > to)
+	{
+		int temp = 0;
+		temp = from;
+		from = to;
+		to = temp;
+	}
 	//traverse trough the particfular form vector and check 
 	//wether the edge exists
 	for (auto x : edgeList.at(from))
@@ -73,15 +82,24 @@ bool Graph::isEdge(double from, double to)
 
 
 
-void Graph::removeEdge(double from, double to)
+void Graph::removeEdge(int from, int to)
 {
-	double i = 0;
-	double j = 0;
+	int i = 0;
+	//int j = 0;
 	//variable used for incrementation during iteration
 
-	double positioni = -1;
-	double positionj = -1;
+	int positioni = -1;
+	//int positionj = -1;
 	//variable to catch the position of the edge in the list
+	
+	//swap if from gretaer than to
+	if (from > to)
+	{
+		int temp = 0;
+		temp = from;
+		from = to;
+		to = temp;
+	}
 
 	for (auto x : edgeList.at(from))
 	{
@@ -102,45 +120,26 @@ void Graph::removeEdge(double from, double to)
 		edgeList[from].erase(edgeList[from].begin() + positioni);
 
 	}
-
 	//if the position is not changed then it means it does
 	//not exist
 	else
 	{
 		cout << "edge doesnot exist so it cannot be removed" << endl;
 	}
-	for (auto x : edgeList.at(to))
-	{
-		//traverse and check for the edge in the edgelist
-		if ((from == x.to) && (to == x.from))
-		{
-			positionj = j;
-		}
-		j++;
-	}
-	j = 0;
-
-	//if the position value changed then at that partuicular
-	//position erase the edge
-	if (positionj >= 0)
-	{
-		edgeList[to].erase(edgeList[to].begin() + positionj);
-
-	}
-
-	//if the position is not changed then it means it does
-	//not exist
-	else
-	{
-		cout << "edge doesnot exist so it cannot be removed" << endl;
-	}
-
 }
 
-double Graph::getWeight(double from, double to)
+double Graph::getWeight(int from, int to)
 {
 	double weight = 0;
 	//having a varible to return edge weight
+	//swap if from greter than to
+	if (from > to)
+	{
+		int temp = 0;
+		temp = from;
+		from = to;
+		to = temp;
+	}
 	for (auto x : edgeList.at(from))
 	{
 		if (x.to == to)
@@ -152,11 +151,18 @@ double Graph::getWeight(double from, double to)
 }
 
 
-double Graph::getPheomone(double from, double to)
+double Graph::getPheomone(int from, int to)
 {
 
 	double prmne = 0;
 	//having a varible to return edge pheromone
+	if (from > to)
+	{
+		int temp = 0;
+		temp = from;
+		from = to;
+		to = temp;
+	}
 	for (auto x : edgeList.at(from))
 	{
 		if (x.to == to)
@@ -167,12 +173,19 @@ double Graph::getPheomone(double from, double to)
 	return prmne;
 }
 
-void Graph::changePheromone(double from, double to, double pheromone)
+void Graph::changePheromone(int from, int to, double pheromone)
 {
 	int position = 0;
-	int positionj = 0;
 	int i = 0;
-	int j = 0;
+	//if from is greater than to than swap 
+	if (from > to)
+	{
+		int temp = 0;
+		temp = from;
+		from = to;
+		to = temp;
+	}
+
 	for (auto x : edgeList.at(from))
 	{
 		//traverse and check for the edge in the edgelist
@@ -184,19 +197,6 @@ void Graph::changePheromone(double from, double to, double pheromone)
 	}
 	i = 0;
 	edgeList[from][position].pheromone = pheromone;
-
-	for (auto x : edgeList.at(to))
-	{
-		//traverse and check for the edge in the edgelist
-		if ((to == x.from) && (from == x.to))
-		{
-			positionj = j;
-		}
-		j++;
-	}
-	j = 0;
-	edgeList[to][positionj].pheromone = pheromone;
-
 }
 
 //method to return the edgelist
@@ -209,7 +209,7 @@ vector<vector<edge>> Graph::returnGraph()
 //method to return the number of vertices in the graph
 int Graph::returnNumberOfVertices()
 {
-	int i = 1;
+	int i = 0;
 	for (auto it : edgeList.at(0))
 	{
 		i++;
