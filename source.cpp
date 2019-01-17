@@ -1,28 +1,27 @@
-#include"ant.h"
-#include<iostream>
+
+#include"Ant.h"
+#include"Colony.h"
 #include<fstream>
-using namespace std;
+
 int main()
 {
 	ifstream infile;
 	infile.open("distanceList.txt");
 
-	double from, to, distance;
+	int from, to;
+	double distance;
 	Graph * g=new Graph(100);
 	
-	Colony c;
+	
 	while (infile >> from >> to >> distance)
 	{
 		g->addEdge(from, to, distance);
 	}
-
-	c.initialisePheromone(*g);
-	Ant a;
-	a.initialiseAnts(*g);
+	Colony c(*g);
 	//g->displayEdgelist();
-	a.antTour(*g);
-	//g->displayEdgelist();
-	cout << "next one" << endl;
-	a.displayPath();
+	c.initialiseAnts(*g);
+	//c.displayAnts();
+	//cout << g->returnNumberOfVertices() << endl;;
+	c.AnttourUsingGreddyALgorithm();
 	system("pause");
 }
