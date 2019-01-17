@@ -1,5 +1,6 @@
 /*This program creates edgelist using two dimensional vectors */
 //header files
+
 #include<vector>
 #include<iostream>
 using namespace std;
@@ -10,12 +11,12 @@ A constructor is also defined to initialise each edge
 */
 struct edge
 {
-	double from;
-	double to;
+	int from;
+	int to;
 	double distance;
 	double pheromone;
 
-	edge(double f, double t, double d)
+	edge(int f, int t, double d)
 	{
 		from = f;
 		to = t;
@@ -40,31 +41,31 @@ private:
 public:
 	//Graph();
 
-	Graph(double n);
+	Graph(int n);
 //default constructor to initialise the size of the edgelist 
 
 	Graph(const Graph &g);
 	//copy constructor to copy the vector 
 
-	void addEdge(double from, double to, double distance);
+	void addEdge(int from, int to, double distance);
 //addEdge method to in initialise an edge doubleo edgeList vector 
 
 	void displayEdgelist();
 	//display all the edges in the edgeList vector
 
-	bool isEdge(double from, double to);
+	bool isEdge(int from, int to);
 	//checks wether the edge exists or not
 
-	void removeEdge(double from, double to);
+	void removeEdge(int from, int to);
 	//removes an edge
 
-	double getWeight(double from, double to);
+	double getWeight(int from, int to);
 	//gives the distance between the given from and to vertices
 
-	double getPheomone(double from, double to);
+	double getPheomone(int from, int to);
 	//gives the pheromone on particular edge
 
-	void changePheromone(double from, double to, double pheromone);
+	void changePheromone(int from, int to, double pheromone);
 	//update the pheromone level at particular edge
 
 	vector<vector<edge>> returnGraph();
