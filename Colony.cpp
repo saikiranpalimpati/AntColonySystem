@@ -1,14 +1,19 @@
 #pragma once
 #include"colony.h"
 using namespace std;
+#include<time.h>
 Colony::Colony(Graph &g)
 {
 	Gph = &g;
 }
 
-void Colony::initialiseAnts(Graph &g)
+void Colony::initialiseAnts()
 {
-	Ants.push_back(Ant(g, 11, 1, 0, 0));
+	/*srand(time(NULL));
+	int randmn = rand() % 4;
+	//cout << "the rndm number is "<< randmn << endl;*/
+	//push the ant in such a way that the  parameters are (graph variable, index, pheromone)
+	Ants.push_back(Ant(*Gph, 11, 1));
 }
 
 void Colony::displayAnts()
@@ -26,7 +31,7 @@ void Colony::displayAnts()
 	}
 }
 
-void Colony::AnttourUsingGreddyALgorithm()
+void Colony::AnttourUsingNearestNeighbourAlgorithm(int postn)
 {
 	int go = 0;
 	vector<bool> visited;
@@ -35,29 +40,27 @@ void Colony::AnttourUsingGreddyALgorithm()
 	{
 		visited.push_back(false);
 	}
-	cout << "the visited vector before is" << endl;
-	for (auto it : visited)
-	{
-		cout << it << endl;
-	}
+
 	int stop = 0;
 	for (auto it : Ants)
 	{
-		int currentPosition = it.getTheCurrentPosition();
-		cout << "intial postion" << currentPosition << endl;
+		int initialPOsition = postn;
+		int currentPosition = initialPOsition;
 		visited[currentPosition] = true;
 		int previousPosition = currentPosition;
 		int nextPosition = 0;
+		it.updatePosition(currentPosition);
 		while (stop == 0 && nextPosition >= 0)
 		{
 			stop = 1;
-			cout << "current position" << currentPosition << endl;
-			cout << "previousPosition" << previousPosition << endl;
-		    nextPosition = it.nextPostionByNearestNeighbour(currentPosition, previousPosition);
-			cout << "nextposition " << nextPosition << endl;
+			//cout << "current position" << currentPosition << endl;
+			//cout << "previousPosition" << previousPosition << endl;
+			nextPosition = it.nextPostionByNearestNeighbour(currentPosition, previousPosition);
+			//cout << "nextposition " << nextPosition << endl;
 			previousPosition = currentPosition;
 			currentPosition = nextPosition;
 			it.updatePosition(currentPosition);
+			it.updateDistance(previousPosition,currentPosition);
 			visited[currentPosition] = true;
 			for (auto itr : visited)
 			{
@@ -65,15 +68,13 @@ void Colony::AnttourUsingGreddyALgorithm()
 				{
 					stop = 0;
 				}
-			}
+			}		
 		}
+		it.updateDistance(nextPosition,initialPOsition);
+		it.updatePosition(postn);
+		it.displayPath();
+		cout << "the distance travelled by the ant is " << it.displayDistanceTravelled() << endl;;
 	}
-	cout << "the visited vector after is" << endl;
-	for (auto it : visited)
-	{
-		cout << it << endl;
-	}
-
 
 }
 
