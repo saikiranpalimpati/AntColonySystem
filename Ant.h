@@ -9,15 +9,17 @@ class Ant
 	double pheromone;
 	int position;
 	vector<int> path;
+	double distanceTravelled;
 public:
-	Ant(Graph&,int,double,int,int);
+	Ant(Graph&, int, double);
 	int displayIndexNumber();
 	int getTheCurrentPosition();
-	int nextPostionByNearestNeighbour(int,int);
+	int nextPostionByNearestNeighbour(int, int);
 	double displayPheromone();
 	vector<int> returnPath();
 	void displayPath();
 	void updatePosition(int);
-	//int findNextVertex(Graph &g);
+	void updateDistance(int,int);
+	double displayDistanceTravelled();
 	~Ant();
 };
