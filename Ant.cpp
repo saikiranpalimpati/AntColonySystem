@@ -1,12 +1,11 @@
 #include "Ant.h"
 
-Ant::Ant(Graph &gp, int a, double x, int y, int z)
+Ant::Ant(Graph &gp, int a, double x)
 {
 	Gph = &gp;
 	index = a;
 	pheromone = x;
-	position = y;
-	path.push_back(z);
+	distanceTravelled = 0;
 }
 
 int Ant::displayIndexNumber()
@@ -19,7 +18,7 @@ int Ant::getTheCurrentPosition()
 	return position;
 }
 
-int Ant::nextPostionByNearestNeighbour(int currentPosition,int previousPosition)
+int Ant::nextPostionByNearestNeighbour(int currentPosition, int previousPosition)
 {
 	int nextPos = -1;
 	int currenPos = currentPosition;
@@ -29,12 +28,15 @@ int Ant::nextPostionByNearestNeighbour(int currentPosition,int previousPosition)
 	double distance = 0;
 	for (int i = 0; i <= graphSize; i++)
 	{
-			int to = i;
-			distance = Gph->getWeight(currenPos, to);
-			if (distance < minDistance && i!=currentPosition && to!=previousPosition)
-			{
-				nextPos = to;
-			}	
+		int to = i;
+		distance = Gph->getWeight(currenPos, to);
+
+		if (to != previousPosition && to != currentPosition && distance < minDistance)
+		{
+			minDistance = distance;
+			nextPos = to;
+			//distanceTravelled += distance;
+		}
 	}
 	return nextPos;
 }
@@ -51,7 +53,7 @@ vector<int> Ant::returnPath()
 
 void  Ant::displayPath()
 {
-	cout << "displaying the path" << endl;
+	cout << "displaying the path travelled by the ant" << endl;
 	for (auto it : path)
 	{
 		cout << it << endl;
@@ -64,7 +66,17 @@ void Ant::updatePosition(int currentPosition)
 	path.push_back(currentPosition);
 }
 
+void Ant::updateDistance(int frm, int tw)
+{
+	double dis = Gph->getWeight(frm,tw);
+	distanceTravelled += dis;
+}
+
+double Ant::displayDistanceTravelled()
+{
+	return distanceTravelled;
+}
+
 Ant::~Ant()
 {
 }
-
