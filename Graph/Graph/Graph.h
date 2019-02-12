@@ -21,7 +21,7 @@ struct edge
 		from = f;
 		to = t;
 		distance = d;
-		pheromone = 0;
+		pheromone = 1;
 	}
 };
 

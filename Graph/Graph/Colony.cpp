@@ -137,7 +137,10 @@ void Colony::implementingAcs()
 	
 	for (auto it : Ants)
 	{
+		it.resetVisit();
 		it.antTourusingACS();
+		it.displayVisit();
+		
 	}
 }
 

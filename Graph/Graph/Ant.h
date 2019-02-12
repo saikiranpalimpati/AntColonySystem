@@ -52,6 +52,10 @@ public:
 	//method to display the distance travelled by the ant
 	double displayDistanceTravelled();
 
+	void displayVisit();
+
 	void antTourusingACS();
+
+	void resetVisit();
 	~Ant();
 };

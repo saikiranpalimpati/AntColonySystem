@@ -1,4 +1,6 @@
 #include "Ant.h"
+#include<ctime>
+#include<iomanip>
 
 //initialise the ant
 Ant::Ant(Graph &gp, int a, double x,int p)
@@ -8,6 +10,8 @@ Ant::Ant(Graph &gp, int a, double x,int p)
 	pheromone = x;
 	distanceTravelled = 0;
 	position = p;
+	int graphSize = Gph->returnNumberOfVertices();
+	visit.resize(graphSize);
 }
 
 //display the index number
@@ -87,6 +91,7 @@ void Ant::updatePosition(int currentPosition)
 {
 	position = currentPosition;
 	path.push_back(currentPosition);
+	visit[currentPosition] = 1;
 }
 
 //update the distance
@@ -102,12 +107,73 @@ double Ant::displayDistanceTravelled()
 	return distanceTravelled;
 }
 
+void Ant::displayVisit()
+{
+	for (auto it : visit)
+	{
+		cout << it << endl;
+	}
+}
+
 void Ant::antTourusingACS()
 {
 	cout << "current position of ant" <<position<< endl;
-	for (auto it : path)
+	updatePosition(position);
+	srand(time(NULL));
+	float q = ((double)rand() / (RAND_MAX));
+	float q0 = ((double)rand() / (RAND_MAX));
+	cout << "q" << q << "  q0  " << q0 << endl;
+	int beta = 3;
+	int currentpositon = position;
+	vector<double> touTimesDistHeuristic;
+	int graphSize = visit.size();
+	touTimesDistHeuristic.resize(graphSize);
+	bool flag = 0;
+	cout << "flag" << flag << endl;
+	while (flag == 0)
 	{
-		cout << "path" <<it << endl;
+		for (int i = 0; i < graphSize; i++)
+		{
+			double distance = Gph->getWeight(currentpositon, i);
+			double pheromone = Gph->getPheomone(currentpositon, i);
+			double distanceSqr = (distance * distance);
+			double heuristic = (pheromone*(1 / distanceSqr));
+			if (i != currentpositon)
+			{
+				touTimesDistHeuristic[i] = heuristic;
+				cout << "heuristic" << heuristic << endl;
+			}
+			else { touTimesDistHeuristic[i] = 0; }
+		}
+		double maxValue = 0;
+		int pos = currentpositon;
+		for (int i = 0; i < touTimesDistHeuristic.size(); i++)
+		{
+			if (touTimesDistHeuristic[i] > maxValue && visit[i] == 0)
+			{
+				maxValue = touTimesDistHeuristic[i];
+				pos = i;
+			}
+		}
+		cout << "next position" << pos << endl;
+		updatePosition(pos);
+		flag = 1;
+		for (int j = 0; j < visit.size(); j++)
+		{
+			if (visit[j] == 0)
+			{
+				flag = 0;
+			}
+		}
+		currentpositon = pos;
+	}
+}
+
+void Ant::resetVisit()
+{
+	for (auto it : visit)
+	{
+		it = 0;
 	}
 }
 
