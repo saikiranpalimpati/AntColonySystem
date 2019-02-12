@@ -1,7 +1,12 @@
 ﻿  Ant.cpp
-c:\users\palim\source\repos\graph\graph\ant.cpp(122): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\palim\source\repos\graph\graph\ant.cpp(123): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\palim\source\repos\graph\graph\ant.cpp(124): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\palim\source\repos\graph\graph\ant.cpp(150): warning C4018: '<': signed/unsigned mismatch
-c:\users\palim\source\repos\graph\graph\ant.cpp(161): warning C4018: '<': signed/unsigned mismatch
+c:\users\palim\source\repos\graph\graph\ant.cpp(124): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\palim\source\repos\graph\graph\ant.cpp(144): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\palim\source\repos\graph\graph\ant.cpp(145): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\palim\source\repos\graph\graph\ant.cpp(167): warning C4018: '<': signed/unsigned mismatch
+c:\users\palim\source\repos\graph\graph\ant.cpp(202): warning C4018: '<': signed/unsigned mismatch
+c:\users\palim\source\repos\graph\graph\ant.cpp(215): warning C4018: '<': signed/unsigned mismatch
+  Colony.cpp
+c:\users\palim\source\repos\graph\graph\colony.cpp(139): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Source.cpp
+  Generating Code...
   Graph.vcxproj -> C:\Users\palim\source\repos\Graph\Debug\Graph.exe

@@ -26,14 +26,8 @@ int main()
 
 	//initialise colony
 	Colony c(*g);
-
-	//initilise ants in a colony
-	//c.initialiseAnts();
-
-	//make ants to make a tour
-	//c.AnttourUsingNearestNeighbourAlgorithm(3);
+	
 	c.implementingAcs();
 
-	//c.displayAnts();
 	system("pause");
 }

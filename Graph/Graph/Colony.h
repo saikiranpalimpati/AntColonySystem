@@ -29,6 +29,7 @@ public:
 	//make ants tour around the graph by using nearest neighbour algorithm
 	double AnttourUsingNearestNeighbourAlgorithm(int);
 
+	//implement acs algorithm on graph
 	void implementingAcs();
 
 	//destructor

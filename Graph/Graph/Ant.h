@@ -52,10 +52,15 @@ public:
 	//method to display the distance travelled by the ant
 	double displayDistanceTravelled();
 
+	//method to display the visited vertices by the ant
 	void displayVisit();
 
+	//method to make the ant tour using acs algorithm
 	void antTourusingACS();
-
+	
+	//methos to reset the visited vertices of an ant
 	void resetVisit();
+
+	//destructor
 	~Ant();
 };

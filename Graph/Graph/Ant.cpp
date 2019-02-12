@@ -89,7 +89,6 @@ void  Ant::displayPath()
 //update the position of the ant
 void Ant::updatePosition(int currentPosition)
 {
-	position = currentPosition;
 	path.push_back(currentPosition);
 	visit[currentPosition] = 1;
 }
@@ -107,6 +106,7 @@ double Ant::displayDistanceTravelled()
 	return distanceTravelled;
 }
 
+//display the visit vector
 void Ant::displayVisit()
 {
 	for (auto it : visit)
@@ -115,23 +115,36 @@ void Ant::displayVisit()
 	}
 }
 
+//ant tour using acs
 void Ant::antTourusingACS()
 {
-	cout << "current position of ant" <<position<< endl;
+	//update the initial position
 	updatePosition(position);
+
 	srand(time(NULL));
-	float q = ((double)rand() / (RAND_MAX));
-	float q0 = ((double)rand() / (RAND_MAX));
-	cout << "q" << q << "  q0  " << q0 << endl;
-	int beta = 3;
+
+	//initial position as current position
 	int currentpositon = position;
+
+	//vector to hold the heuristic values 
 	vector<double> touTimesDistHeuristic;
+
+	//get the size of a graph
 	int graphSize = visit.size();
 	touTimesDistHeuristic.resize(graphSize);
+
+	//initially let the flag be 0
 	bool flag = 0;
-	cout << "flag" << flag << endl;
+	int pos = currentpositon;
+
+	//run till the flag is on
 	while (flag == 0)
 	{
+		//generate two random numbers between 0 and 1
+		float q = ((double)rand() / (RAND_MAX));
+		float q0 = ((double)rand() / (RAND_MAX));
+
+		//now calculate the heuristic
 		for (int i = 0; i < graphSize; i++)
 		{
 			double distance = Gph->getWeight(currentpositon, i);
@@ -141,22 +154,63 @@ void Ant::antTourusingACS()
 			if (i != currentpositon)
 			{
 				touTimesDistHeuristic[i] = heuristic;
-				cout << "heuristic" << heuristic << endl;
 			}
+			//if from and to are same then let heuristic be 0
 			else { touTimesDistHeuristic[i] = 0; }
 		}
-		double maxValue = 0;
-		int pos = currentpositon;
-		for (int i = 0; i < touTimesDistHeuristic.size(); i++)
+		//if the first randomn number is less than the second
+		if (q < q0)
 		{
-			if (touTimesDistHeuristic[i] > maxValue && visit[i] == 0)
+			//extract the maximum heuristic value
+			double maxValue = 0;
+		    pos = currentpositon;
+			for (int i = 0; i < touTimesDistHeuristic.size(); i++)
 			{
-				maxValue = touTimesDistHeuristic[i];
-				pos = i;
-			}
+				//check wether this is maximum and the it has not visited the vertex before
+				if (touTimesDistHeuristic[i] > maxValue && visit[i] == 0)
+				{
+					maxValue = touTimesDistHeuristic[i];
+					pos = i;
+				}
+			}	
+			//update the position
+			updatePosition(pos);
 		}
-		cout << "next position" << pos << endl;
-		updatePosition(pos);
+		else
+		{
+			//let probablility vector have the values from random proportional rule
+			vector<double> probability;
+			probability.resize(graphSize);
+
+			//let the denominator term be initialised as zero
+			double denominator = 0;
+
+			//now calculate the denominator
+			for (auto it : touTimesDistHeuristic)
+			{
+				denominator += it;
+			}
+			//update the probability vector
+			for (int i = 0; i < graphSize; i++)
+			{
+				probability[i] = (touTimesDistHeuristic[i]/denominator);
+			}
+
+			//extract the vertex with maximum probability
+			double maxValue = 0;
+			pos = currentpositon;
+			for (int i = 0; i < probability.size(); i++)
+			{
+				if (probability[i] > maxValue && visit[i] == 0)
+				{
+					maxValue = probability[i];
+					pos = i;
+				}
+			}
+			//update the position
+			updatePosition(pos);
+		}
+		//check for flag if any of the vertex is not visited then keep thr flag off
 		flag = 1;
 		for (int j = 0; j < visit.size(); j++)
 		{
@@ -169,6 +223,7 @@ void Ant::antTourusingACS()
 	}
 }
 
+//this method resets all the visited verices of ant
 void Ant::resetVisit()
 {
 	for (auto it : visit)
@@ -177,6 +232,7 @@ void Ant::resetVisit()
 	}
 }
 
+//destructor
 Ant::~Ant()
 {
 }

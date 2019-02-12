@@ -10,6 +10,7 @@ Colony::Colony(Graph &g)
 	Gph = &g;
 }
 
+//constructor to initailiase the ants
 void Colony::initialiseAnts(int rposition,int rindex)
 {
 	int positon = rposition;
@@ -20,7 +21,7 @@ void Colony::initialiseAnts(int rposition,int rindex)
 	Ants.push_back(Ant(*Gph, index, 1, positon));
 }
 
-
+//method to display all the ants with their characteristics
 void Colony::displayAnts()
 {
 	//iterate trough all the ants 
@@ -39,6 +40,7 @@ void Colony::displayAnts()
 	}
 }
 
+//method to make ants tour using nearest neighbour algorithm
 double Colony::AnttourUsingNearestNeighbourAlgorithm(int postn)
 {
 	double distance = 0;
@@ -128,19 +130,26 @@ double Colony::AnttourUsingNearestNeighbourAlgorithm(int postn)
 	return distance;
 }
 
+
+//implementing acs algorithm on graph
 void Colony::implementingAcs()
 {
+	//only one ant is taken in acs so it is placed at a randomn index and 
+	//given a random index number
 	srand(time(NULL));
 	int randPosition = rand() % 4;
 	int randIndex = rand() % 10;
+
+	//the ant is initialised on a graph
 	initialiseAnts(randPosition, randIndex);
 	
 	for (auto it : Ants)
-	{
+	{   //iniitially reset all the visited nodes of ant
 		it.resetVisit();
+		//construct the tour using ACS
 		it.antTourusingACS();
-		it.displayVisit();
-		
+		//display the path ant travelled during ACS
+		it.displayPath();
 	}
 }
 
