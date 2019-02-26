@@ -54,12 +54,15 @@ public:
 
 	//method to display the visited vertices by the ant
 	void displayVisit();
-
+    
+	void localPheromoneUpdate(int,int);
 	//method to make the ant tour using acs algorithm
 	void antTourusingACS();
 	
+	void globalPheromoneUpdate();
 	//methos to reset the visited vertices of an ant
 	void resetVisit();
+
 
 	//destructor
 	~Ant();

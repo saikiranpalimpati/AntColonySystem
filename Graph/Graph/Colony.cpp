@@ -150,7 +150,10 @@ void Colony::implementingAcs()
 		it.antTourusingACS();
 		//display the path ant travelled during ACS
 		it.displayPath();
+		it.globalPheromoneUpdate();
 	}
+	
+
 }
 
 Colony::~Colony()

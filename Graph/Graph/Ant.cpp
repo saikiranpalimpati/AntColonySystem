@@ -103,7 +103,16 @@ void Ant::updateDistance(int frm, int tw)
 //display the distance travelled
 double Ant::displayDistanceTravelled()
 {
-	return distanceTravelled;
+	int from = path[0];
+	int size = path.size();
+	double distance = 0;
+	for (int i = 1; i < size; i++)
+	{
+		int to = path[i];
+		distance+=Gph->getWeight(from, to);
+		from = to;
+	}
+	return distance;
 }
 
 //display the visit vector
@@ -113,6 +122,15 @@ void Ant::displayVisit()
 	{
 		cout << it << endl;
 	}
+}
+
+void Ant::localPheromoneUpdate(int from, int to)
+{
+
+	double e = 0.1;
+	double pheromone = Gph->getPheomone(from, to);
+	double temppheromone = ((1 - 0.1)*pheromone) + (e*1);
+	Gph->changePheromone(to,from,temppheromone);
 }
 
 //ant tour using acs
@@ -137,7 +155,7 @@ void Ant::antTourusingACS()
 	bool flag = 0;
 	int pos = currentpositon;
 
-	//run till the flag is on
+	//run till the flag is on (till it reaches all the vertices)
 	while (flag == 0)
 	{
 		//generate two random numbers between 0 and 1
@@ -150,7 +168,7 @@ void Ant::antTourusingACS()
 			double distance = Gph->getWeight(currentpositon, i);
 			double pheromone = Gph->getPheomone(currentpositon, i);
 			double distanceSqr = (distance * distance);
-			double heuristic = (pheromone*(1 / distanceSqr));
+			double heuristic = (pheromone*((1 / distanceSqr)*(1/distanceSqr)));
 			if (i != currentpositon)
 			{
 				touTimesDistHeuristic[i] = heuristic;
@@ -166,6 +184,7 @@ void Ant::antTourusingACS()
 		    pos = currentpositon;
 			for (int i = 0; i < touTimesDistHeuristic.size(); i++)
 			{
+				
 				//check wether this is maximum and the it has not visited the vertex before
 				if (touTimesDistHeuristic[i] > maxValue && visit[i] == 0)
 				{
@@ -175,6 +194,8 @@ void Ant::antTourusingACS()
 			}	
 			//update the position
 			updatePosition(pos);
+
+			localPheromoneUpdate(currentpositon,pos);
 		}
 		else
 		{
@@ -201,6 +222,7 @@ void Ant::antTourusingACS()
 			pos = currentpositon;
 			for (int i = 0; i < probability.size(); i++)
 			{
+				
 				if (probability[i] > maxValue && visit[i] == 0)
 				{
 					maxValue = probability[i];
@@ -209,6 +231,7 @@ void Ant::antTourusingACS()
 			}
 			//update the position
 			updatePosition(pos);
+			localPheromoneUpdate(currentpositon, pos);
 		}
 		//check for flag if any of the vertex is not visited then keep thr flag off
 		flag = 1;
@@ -221,6 +244,26 @@ void Ant::antTourusingACS()
 		}
 		currentpositon = pos;
 	}
+	updatePosition(position);
+	localPheromoneUpdate(currentpositon,position);
+}
+
+void Ant::globalPheromoneUpdate()
+{
+	int size = path.size();
+	int from = path[0];
+	double distancetravlled = displayDistanceTravelled();
+	double tou = (1 / distanceTravelled);
+	double row = 0.05;
+
+	for (int i = 1; i<5; i++)
+	{
+	    int to = path[i];
+		double pheromone = Gph->getPheomone(from, to);
+		double temppheromone = ((1 - row)*pheromone) + (0.05*tou);
+		Gph->changePheromone(from, to, temppheromone);
+		from = to;
+	}
 }
 
 //this method resets all the visited verices of ant
@@ -230,6 +273,7 @@ void Ant::resetVisit()
 	{
 		it = 0;
 	}
+	path.clear();
 }
 
 //destructor

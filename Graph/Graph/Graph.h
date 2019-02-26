@@ -68,6 +68,8 @@ public:
 	void changePheromone(int from, int to, double pheromone);
 	//update the pheromone level at particular edge
 
+	void evauporatePheromone();
+
 	vector<vector<edge>> returnGraph();
 	//method to return the graph
 

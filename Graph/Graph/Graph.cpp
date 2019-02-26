@@ -199,6 +199,23 @@ void Graph::changePheromone(int from, int to, double pheromone)
 	edgeList[from][position].pheromone = pheromone;
 }
 
+void Graph::evauporatePheromone()
+{
+	for (auto it : edgeList)
+	{
+
+		for (auto x : it)
+		{
+			int from = x.from;
+			int to = x.to;
+			double pheromone = x.pheromone;
+			double temppheromone = pheromone - 0.01;
+			changePheromone(from,to,temppheromone);
+			
+		}
+	}
+}
+
 //method to return the edgelist
 vector<vector<edge>> Graph::returnGraph()
 {
